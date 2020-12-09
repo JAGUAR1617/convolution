@@ -1,42 +1,38 @@
-let cat;
+let circ;
 let filtered;
 let dim = 64;
 
 function preload() {
-  cat = loadImage('circle0001.png');
-
+  circ = loadImage('circle0001.png');
 }
 
 let filter = [
   [-1, 1, 0],
   [-1, 0, 1],
   [-1, 1, 0]
-
 ];
 
 
 
 function setup() {
-
+  // generating random filter 3 x 3 matrix
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
       filter[i][j] = random(-1, 1);
     }
   }
 
-
   createCanvas(dim * 10 * 2, dim * 10);
   filtered = createImage(dim, dim);
   background(255);
   noSmooth();
-  image(cat, 0, 0, dim * 10, dim * 10);
-  cat.loadPixels();
+  image(circ, 0, 0, dim * 10, dim * 10);
+  circ.loadPixels();
   filtered.loadPixels();
   for (let x = 1; x < dim - 1; x++) {
     for (let y = 1; y < dim - 1; y++) {
-      let rgb = convolution(cat, x, y, filter);
+      let rgb = convolution(circ, x, y, filter);
       let pix = index(x, y);
-
       filtered.pixels[pix + 0] = rgb.r;
       filtered.pixels[pix + 1] = rgb.g;
       filtered.pixels[pix + 2] = rgb.b;
@@ -45,13 +41,10 @@ function setup() {
   }
   filtered.updatePixels();
   image(filtered, dim * 10, 0, dim * 10, dim * 10)
-
 }
 
 function index(x, y) {
-
-  return (x + y * cat.width) * 4;
-
+  return (x + y * circ.width) * 4;
 }
 
 
@@ -62,8 +55,6 @@ function convolution(img, x, y, filter) {
   let sumG = 0;
   let sumB = 0;
 
-
-
   for (let i = -1; i <= 1; i++) {
     for (let j = -1; j <= 1; j++) {
       // let px = x+i;
@@ -73,7 +64,6 @@ function convolution(img, x, y, filter) {
       sumR += img.pixels[pix + 0] * factor;
       sumG += img.pixels[pix + 1] * factor;
       sumB += img.pixels[pix + 2] * factor;
-
     }
   }
 
@@ -81,13 +71,9 @@ function convolution(img, x, y, filter) {
     r: sumR,
     g: sumG,
     b: sumB
-
   };
 }
 
 
 function draw() {
-
-
-
 }
